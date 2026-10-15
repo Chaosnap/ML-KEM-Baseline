@@ -1,0 +1,45 @@
+UART transactions (signal txn_name in the VCD)
+request  = bytes the host sends on uart_rxd (into the FPGA)
+response = bytes the FPGA sends back on uart_txd
+
+== 1 PING   [PASS]
+   request  : 01  (1 B)
+   response : 00 4b 59 01 07  (5 B)
+   uart_rxd : 3240 .. 4040 ns   (last byte received by FPGA at 4030 ns)
+   uart_txd : first byte starts at 4050 ns, last at 7290 ns, host done reading at 8060 ns
+   check    : status=00, signature 'KY', version=0x01, caps=0b111
+
+== 2 WRITE_POLY   [PASS]
+   request  : 41 00 05 00 0a 01 0a 02 0a 03 0a 04 ... (515 B)
+   response : 00  (1 B)
+   uart_rxd : 8450 .. 420450 ns   (last byte received by FPGA at 420430 ns)
+   uart_txd : first byte starts at 420440 ns, last at 420440 ns, host done reading at 421210 ns
+   check    : 256 coefficients 0xA00..0xAFF written to keygen core slot 5, status=00
+
+== 3 READ_POLY   [PASS]
+   request  : 40 00 05  (3 B)
+   response : 00 00 0a 01 0a 02 0a 03 0a 04 0a 05 ... (513 B)
+   uart_rxd : 421600 .. 424000 ns   (last byte received by FPGA at 423980 ns)
+   uart_txd : first byte starts at 424000 ns, last at 838720 ns, host done reading at 839490 ns
+   check    : returned 512 bytes == written 512 bytes: True (first coefficients 0xa00, 0xa01, 0xa02, 0xa03)
+
+== 4 KEYGEN   [PASS]
+   request  : 10 00 01 02 03 04 05 06 07 08 09 0a ... (33 B)
+   response : 00 f3 8b 00 00  (5 B)
+   uart_rxd : 839880 .. 866280 ns   (last byte received by FPGA at 866260 ns)
+   uart_txd : first byte starts at 1224550 ns, last at 1227790 ns, host done reading at 1228560 ns
+   check    : status=00, keygen core finished in 35827 cycles (reported by the FPGA)
+
+== 5 READ_SECRET   [PASS]
+   request  : 50 00  (2 B)
+   response : 00 5e 43 48 1c 3e eb 39 7e b1 92 50 ... (33 B)
+   uart_rxd : 1228950 .. 1230550 ns   (last byte received by FPGA at 1230530 ns)
+   uart_txd : first byte starts at 1230550 ns, last at 1256470 ns, host done reading at 1257240 ns
+   check    : rho == SHA3-512(d || 3)[0:32] from Python: True
+
+== 6 BAD_SLOT   [PASS]
+   request  : 40 00 19  (3 B)
+   response : 03  (1 B)
+   uart_rxd : 1257630 .. 1260030 ns   (last byte received by FPGA at 1260010 ns)
+   uart_txd : first byte starts at 1260030 ns, last at 1260030 ns, host done reading at 1260800 ns
+   check    : status=0x03 (bad argument), no payload

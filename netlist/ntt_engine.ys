@@ -1,0 +1,12 @@
+read_verilog -sv -formal -overwrite {workspace}/rtl/poly_ram.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/ntt_rom.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/ntt_butterfly.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/barrett_reduce.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/cond_sub_q.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/mod_add.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/mod_sub.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/cond_add_q.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/intt_butterfly.v
+read_verilog -sv -formal -overwrite {workspace}/rtl/ntt_engine.v
+design -reset-vlog; proc;
+write_json {workspace}/netlist/ntt_engine.json

@@ -267,3 +267,32 @@ async def test_back_to_back(dut):
     compare_result("Back-to-back hash 2", result2, expected2)
 
     dut._log.info("Back-to-back hashing: PASS")
+
+
+@cocotb.test(timeout_time=100, timeout_unit="us")   # hangs without the fix
+async def test_start_during_squeeze_permute(dut):
+    """Start a new hash right after squeezing exactly one SHAKE-128 block.
+
+    Taking the last byte of a rate block sends the sponge into PERMUTE. The
+    EXPAND_A sequencers pulse start for the next matrix entry on the next
+    cycles; before the fix that pulse was dropped and the controller hung
+    (ACVP ML-KEM-768 decapsulation tcId=94: entry A[0][1] consumes exactly
+    3 x 168 XOF bytes).
+    """
+    clock = Clock(dut.clk, 10, unit="ns")
+    cocotb.start_soon(clock.start())
+    await reset_dut(dut)
+
+    msg1 = bytes(range(34))
+    result1 = await hash_message(dut, SHAKE_128, msg1, 168)
+    compare_result("SHAKE-128 full block", result1, hashlib.shake_128(msg1).digest(168))
+
+    await FallingEdge(dut.clk)
+    assert dut.fsm_state.value.to_unsigned() == 3, "sponge should be permuting (S_PERMUTE)"
+
+    msg2 = bytes(range(34, 68))
+    result2 = await hash_message(dut, SHAKE_128, msg2, 32)
+    compare_result("SHAKE-128 after mid-permute start", result2,
+                   hashlib.shake_128(msg2).digest(32))
+
+    dut._log.info("Start during squeeze-permute: PASS")

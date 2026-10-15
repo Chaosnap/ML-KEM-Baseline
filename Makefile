@@ -8,12 +8,13 @@
 .PHONY: waves_intt_butterfly waves_ntt_rom waves_poly_ram waves_ntt_engine waves_basemul_unit waves_poly_basemul
 .PHONY: waves_compress waves_decompress waves_poly_addsub waves_cbd_sampler waves_kyber_top waves_encaps_top
 .PHONY: waves_keygen_top waves_decaps_top waves_keccak_sponge waves_auto_keygen waves_auto_encaps
+.PHONY: test_fpga_top waves_fpga_top sim_evidence
 
 test: test_cond_sub_q test_barrett_reduce test_cond_add_q test_mod_add test_mod_sub test_ntt_butterfly \
       test_intt_butterfly test_ntt_rom test_poly_ram test_ntt_engine test_basemul_unit test_poly_basemul \
       test_compress test_decompress test_poly_addsub test_cbd_sampler test_kyber_top test_encaps_top \
       test_keygen_top test_decaps_top test_keccak_sponge test_auto_keygen test_auto_encaps \
-      test_acvp_oracle test_acvp_keygen test_acvp_encaps test_acvp_decaps
+      test_fpga_top test_acvp_oracle test_acvp_keygen test_acvp_encaps test_acvp_decaps
 
 # ACVP compliance tests (NIST FIPS 203 test vectors)
 test_acvp: test_acvp_oracle test_acvp_keygen test_acvp_encaps test_acvp_decaps
@@ -22,177 +23,195 @@ test_acvp_oracle:
 	python ref/test_acvp_oracle.py
 
 test_acvp_keygen:
-	$(MAKE) -C tb/acvp_keygen
+	cd tb/acvp_keygen && $(MAKE)
 
 test_acvp_encaps:
-	$(MAKE) -C tb/acvp_encaps
+	cd tb/acvp_encaps && $(MAKE)
 
 test_acvp_decaps:
-	$(MAKE) -C tb/acvp_decaps
+	cd tb/acvp_decaps && $(MAKE)
 
 test_cond_sub_q:
-	$(MAKE) -C tb/cond_sub_q
+	cd tb/cond_sub_q && $(MAKE)
 
 test_barrett_reduce:
-	$(MAKE) -C tb/barrett_reduce
+	cd tb/barrett_reduce && $(MAKE)
 
 test_cond_add_q:
-	$(MAKE) -C tb/cond_add_q
+	cd tb/cond_add_q && $(MAKE)
 
 test_mod_add:
-	$(MAKE) -C tb/mod_add
+	cd tb/mod_add && $(MAKE)
 
 test_mod_sub:
-	$(MAKE) -C tb/mod_sub
+	cd tb/mod_sub && $(MAKE)
 
 test_ntt_butterfly:
-	$(MAKE) -C tb/ntt_butterfly
+	cd tb/ntt_butterfly && $(MAKE)
 
 test_intt_butterfly:
-	$(MAKE) -C tb/intt_butterfly
+	cd tb/intt_butterfly && $(MAKE)
 
 test_ntt_rom:
-	$(MAKE) -C tb/ntt_rom
+	cd tb/ntt_rom && $(MAKE)
 
 test_poly_ram:
-	$(MAKE) -C tb/poly_ram
+	cd tb/poly_ram && $(MAKE)
 
 test_ntt_engine:
-	$(MAKE) -C tb/ntt_engine
+	cd tb/ntt_engine && $(MAKE)
 
 test_basemul_unit:
-	$(MAKE) -C tb/basemul_unit
+	cd tb/basemul_unit && $(MAKE)
 
 test_poly_basemul:
-	$(MAKE) -C tb/poly_basemul
+	cd tb/poly_basemul && $(MAKE)
 
 test_compress:
-	$(MAKE) -C tb/compress
+	cd tb/compress && $(MAKE)
 
 test_decompress:
-	$(MAKE) -C tb/decompress
+	cd tb/decompress && $(MAKE)
 
 test_poly_addsub:
-	$(MAKE) -C tb/poly_addsub
+	cd tb/poly_addsub && $(MAKE)
 
 test_cbd_sampler:
-	$(MAKE) -C tb/cbd_sampler
+	cd tb/cbd_sampler && $(MAKE)
 
 test_kyber_top:
-	$(MAKE) -C tb/kyber_top
+	cd tb/kyber_top && $(MAKE)
 
 test_encaps_top:
-	$(MAKE) -C tb/encaps_top
+	cd tb/encaps_top && $(MAKE)
 
 test_keygen_top:
-	$(MAKE) -C tb/keygen_top
+	cd tb/keygen_top && $(MAKE)
 
 test_decaps_top:
-	$(MAKE) -C tb/decaps_top
+	cd tb/decaps_top && $(MAKE)
 
 test_keccak_sponge:
-	$(MAKE) -C tb/keccak_sponge
+	cd tb/keccak_sponge && $(MAKE)
 
 test_auto_keygen:
-	$(MAKE) -C tb/auto_keygen
+	cd tb/auto_keygen && $(MAKE)
 
 test_auto_encaps:
-	$(MAKE) -C tb/auto_encaps
+	cd tb/auto_encaps && $(MAKE)
+
+# Annotated evidence waveforms + logs → simulate_result/ (see docs/vcd_waveform_guide_zh.md)
+sim_evidence:
+	cd tb/evidence_ntt && $(MAKE)
+	cd tb/evidence_encaps && $(MAKE)
+	cd tb/evidence_uart && $(MAKE)
+	@echo; grep -h "^RESULT" simulate_result/logs/*_result.txt; ls -l simulate_result/waves
+
+# UART top-level: runs scripts/test_fpga_uart.py against the simulated FPGA
+test_fpga_top:
+	cd tb/fpga_top && $(MAKE)
 
 # Waveform dumps — produces FST files viewable in GTKWave
 waves_cond_sub_q:
-	$(MAKE) -C tb/cond_sub_q WAVES=1
+	cd tb/cond_sub_q && $(MAKE) WAVES=1
 
 waves_barrett_reduce:
-	$(MAKE) -C tb/barrett_reduce WAVES=1
+	cd tb/barrett_reduce && $(MAKE) WAVES=1
 
 waves_cond_add_q:
-	$(MAKE) -C tb/cond_add_q WAVES=1
+	cd tb/cond_add_q && $(MAKE) WAVES=1
 
 waves_mod_add:
-	$(MAKE) -C tb/mod_add WAVES=1
+	cd tb/mod_add && $(MAKE) WAVES=1
 
 waves_mod_sub:
-	$(MAKE) -C tb/mod_sub WAVES=1
+	cd tb/mod_sub && $(MAKE) WAVES=1
 
 waves_ntt_butterfly:
-	$(MAKE) -C tb/ntt_butterfly WAVES=1
+	cd tb/ntt_butterfly && $(MAKE) WAVES=1
 
 waves_intt_butterfly:
-	$(MAKE) -C tb/intt_butterfly WAVES=1
+	cd tb/intt_butterfly && $(MAKE) WAVES=1
 
 waves_ntt_rom:
-	$(MAKE) -C tb/ntt_rom WAVES=1
+	cd tb/ntt_rom && $(MAKE) WAVES=1
 
 waves_poly_ram:
-	$(MAKE) -C tb/poly_ram WAVES=1
+	cd tb/poly_ram && $(MAKE) WAVES=1
 
 waves_ntt_engine:
-	$(MAKE) -C tb/ntt_engine WAVES=1
+	cd tb/ntt_engine && $(MAKE) WAVES=1
 
 waves_basemul_unit:
-	$(MAKE) -C tb/basemul_unit WAVES=1
+	cd tb/basemul_unit && $(MAKE) WAVES=1
 
 waves_poly_basemul:
-	$(MAKE) -C tb/poly_basemul WAVES=1
+	cd tb/poly_basemul && $(MAKE) WAVES=1
 
 waves_compress:
-	$(MAKE) -C tb/compress WAVES=1
+	cd tb/compress && $(MAKE) WAVES=1
 
 waves_decompress:
-	$(MAKE) -C tb/decompress WAVES=1
+	cd tb/decompress && $(MAKE) WAVES=1
 
 waves_poly_addsub:
-	$(MAKE) -C tb/poly_addsub WAVES=1
+	cd tb/poly_addsub && $(MAKE) WAVES=1
 
 waves_cbd_sampler:
-	$(MAKE) -C tb/cbd_sampler WAVES=1
+	cd tb/cbd_sampler && $(MAKE) WAVES=1
 
 waves_kyber_top:
-	$(MAKE) -C tb/kyber_top WAVES=1
+	cd tb/kyber_top && $(MAKE) WAVES=1
 
 waves_encaps_top:
-	$(MAKE) -C tb/encaps_top WAVES=1
+	cd tb/encaps_top && $(MAKE) WAVES=1
 
 waves_keygen_top:
-	$(MAKE) -C tb/keygen_top WAVES=1
+	cd tb/keygen_top && $(MAKE) WAVES=1
 
 waves_decaps_top:
-	$(MAKE) -C tb/decaps_top WAVES=1
+	cd tb/decaps_top && $(MAKE) WAVES=1
 
 waves_keccak_sponge:
-	$(MAKE) -C tb/keccak_sponge WAVES=1
+	cd tb/keccak_sponge && $(MAKE) WAVES=1
 
 waves_auto_keygen:
-	$(MAKE) -C tb/auto_keygen WAVES=1
+	cd tb/auto_keygen && $(MAKE) WAVES=1
 
 waves_auto_encaps:
-	$(MAKE) -C tb/auto_encaps WAVES=1
+	cd tb/auto_encaps && $(MAKE) WAVES=1
+
+waves_fpga_top:
+	cd tb/fpga_top && $(MAKE) WAVES=1
 
 clean:
-	$(MAKE) -C tb/cond_sub_q clean
-	$(MAKE) -C tb/barrett_reduce clean
-	$(MAKE) -C tb/cond_add_q clean
-	$(MAKE) -C tb/mod_add clean
-	$(MAKE) -C tb/mod_sub clean
-	$(MAKE) -C tb/ntt_butterfly clean
-	$(MAKE) -C tb/intt_butterfly clean
-	$(MAKE) -C tb/ntt_rom clean
-	$(MAKE) -C tb/poly_ram clean
-	$(MAKE) -C tb/ntt_engine clean
-	$(MAKE) -C tb/basemul_unit clean
-	$(MAKE) -C tb/poly_basemul clean
-	$(MAKE) -C tb/compress clean
-	$(MAKE) -C tb/decompress clean
-	$(MAKE) -C tb/poly_addsub clean
-	$(MAKE) -C tb/cbd_sampler clean
-	$(MAKE) -C tb/kyber_top clean
-	$(MAKE) -C tb/encaps_top clean
-	$(MAKE) -C tb/keygen_top clean
-	$(MAKE) -C tb/decaps_top clean
-	$(MAKE) -C tb/keccak_sponge clean
-	$(MAKE) -C tb/auto_keygen clean
-	$(MAKE) -C tb/auto_encaps clean
-	$(MAKE) -C tb/acvp_keygen clean
-	$(MAKE) -C tb/acvp_encaps clean
-	$(MAKE) -C tb/acvp_decaps clean
+	cd tb/cond_sub_q && $(MAKE) clean
+	cd tb/barrett_reduce && $(MAKE) clean
+	cd tb/cond_add_q && $(MAKE) clean
+	cd tb/mod_add && $(MAKE) clean
+	cd tb/mod_sub && $(MAKE) clean
+	cd tb/ntt_butterfly && $(MAKE) clean
+	cd tb/intt_butterfly && $(MAKE) clean
+	cd tb/ntt_rom && $(MAKE) clean
+	cd tb/poly_ram && $(MAKE) clean
+	cd tb/ntt_engine && $(MAKE) clean
+	cd tb/basemul_unit && $(MAKE) clean
+	cd tb/poly_basemul && $(MAKE) clean
+	cd tb/compress && $(MAKE) clean
+	cd tb/decompress && $(MAKE) clean
+	cd tb/poly_addsub && $(MAKE) clean
+	cd tb/cbd_sampler && $(MAKE) clean
+	cd tb/kyber_top && $(MAKE) clean
+	cd tb/encaps_top && $(MAKE) clean
+	cd tb/keygen_top && $(MAKE) clean
+	cd tb/decaps_top && $(MAKE) clean
+	cd tb/keccak_sponge && $(MAKE) clean
+	cd tb/auto_keygen && $(MAKE) clean
+	cd tb/auto_encaps && $(MAKE) clean
+	cd tb/fpga_top && $(MAKE) clean
+	cd tb/evidence_ntt && $(MAKE) clean
+	cd tb/evidence_encaps && $(MAKE) clean
+	cd tb/evidence_uart && $(MAKE) clean
+	cd tb/acvp_keygen && $(MAKE) clean
+	cd tb/acvp_encaps && $(MAKE) clean
+	cd tb/acvp_decaps && $(MAKE) clean

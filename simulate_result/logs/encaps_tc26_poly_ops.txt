@@ -1,0 +1,106 @@
+POLY_OPS — kyber_top micro-ops (NIST tcId=26, signals poly_stage_name / poly_step / kt_op_name)
+
+
+== NTT(r)   ŷ = NTT(y[0..2])   (4290 cycles in micro-ops)
+   step  micro-op        start(ns)  cycles
+      0  COPY_TO_NTT        183190     258
+      1  RUN_NTT            185800     914
+      2  COPY_FROM_NTT      194970     258
+      3  COPY_TO_NTT        197580     258
+      4  RUN_NTT            200190     914
+      5  COPY_FROM_NTT      209360     258
+      6  COPY_TO_NTT        211970     258
+      7  RUN_NTT            214580     914
+      8  COPY_FROM_NTT      223750     258
+
+== u[0]=At.r+e1   u[0] = INTT(Σ Â[j][0]·ŷ[j]) + e1[0]   (5566 cycles in micro-ops)
+   step  micro-op        start(ns)  cycles
+      9  COPY_TO_BM_A       226360     258
+     10  COPY_TO_BM_B       228970     258
+     11  RUN_BASEMUL        231580     260
+     12  COPY_FROM_BM       234210     258
+     13  COPY_TO_BM_A       236820     258
+     14  COPY_TO_BM_B       239430     258
+     15  RUN_BASEMUL        242040     260
+     16  COPY_FROM_BM       244670     258
+     17  POLY_ADD           247280     259
+     18  COPY_TO_BM_A       249900     258
+     19  COPY_TO_BM_B       252510     258
+     20  RUN_BASEMUL        255120     260
+     21  COPY_FROM_BM       257750     258
+     22  POLY_ADD           260360     259
+     23  COPY_TO_NTT        262980     258
+     24  RUN_INTT           265590    1171
+     25  COPY_FROM_NTT      277330     258
+     26  POLY_ADD           279940     259
+
+== u[1]=At.r+e1   u[1] = INTT(Σ Â[j][1]·ŷ[j]) + e1[1]   (5566 cycles in micro-ops)
+   step  micro-op        start(ns)  cycles
+     27  COPY_TO_BM_A       282560     258
+     28  COPY_TO_BM_B       285170     258
+     29  RUN_BASEMUL        287780     260
+     30  COPY_FROM_BM       290410     258
+     31  COPY_TO_BM_A       293020     258
+     32  COPY_TO_BM_B       295630     258
+     33  RUN_BASEMUL        298240     260
+     34  COPY_FROM_BM       300870     258
+     35  POLY_ADD           303480     259
+     36  COPY_TO_BM_A       306100     258
+     37  COPY_TO_BM_B       308710     258
+     38  RUN_BASEMUL        311320     260
+     39  COPY_FROM_BM       313950     258
+     40  POLY_ADD           316560     259
+     41  COPY_TO_NTT        319180     258
+     42  RUN_INTT           321790    1171
+     43  COPY_FROM_NTT      333530     258
+     44  POLY_ADD           336140     259
+
+== u[2]=At.r+e1   u[2] = INTT(Σ Â[j][2]·ŷ[j]) + e1[2]   (5566 cycles in micro-ops)
+   step  micro-op        start(ns)  cycles
+     45  COPY_TO_BM_A       338760     258
+     46  COPY_TO_BM_B       341370     258
+     47  RUN_BASEMUL        343980     260
+     48  COPY_FROM_BM       346610     258
+     49  COPY_TO_BM_A       349220     258
+     50  COPY_TO_BM_B       351830     258
+     51  RUN_BASEMUL        354440     260
+     52  COPY_FROM_BM       357070     258
+     53  POLY_ADD           359680     259
+     54  COPY_TO_BM_A       362300     258
+     55  COPY_TO_BM_B       364910     258
+     56  RUN_BASEMUL        367520     260
+     57  COPY_FROM_BM       370150     258
+     58  POLY_ADD           372760     259
+     59  COPY_TO_NTT        375380     258
+     60  RUN_INTT           377990    1171
+     61  COPY_FROM_NTT      389730     258
+     62  POLY_ADD           392340     259
+
+== v=tt.r+e2+mu   v = INTT(Σ t̂[j]·ŷ[j]) + e2 + μ   (5825 cycles in micro-ops)
+   step  micro-op        start(ns)  cycles
+     63  COPY_TO_BM_A       394960     258
+     64  COPY_TO_BM_B       397570     258
+     65  RUN_BASEMUL        400180     260
+     66  COPY_FROM_BM       402810     258
+     67  COPY_TO_BM_A       405420     258
+     68  COPY_TO_BM_B       408030     258
+     69  RUN_BASEMUL        410640     260
+     70  COPY_FROM_BM       413270     258
+     71  POLY_ADD           415880     259
+     72  COPY_TO_BM_A       418500     258
+     73  COPY_TO_BM_B       421110     258
+     74  RUN_BASEMUL        423720     260
+     75  COPY_FROM_BM       426350     258
+     76  POLY_ADD           428960     259
+     77  COPY_TO_NTT        431580     258
+     78  RUN_INTT           434190    1171
+     79  COPY_FROM_NTT      445930     258
+     80  POLY_ADD           448540     259
+     81  POLY_ADD           451160     259
+
+== COMPRESS   c1 = Compress₁₀(u), c2 = Compress₄(v)   (1036 cycles in micro-ops)
+   step  micro-op        start(ns)  cycles
+     82  COMPRESS           453780     259
+     83  COMPRESS           456400     259
+     84  COMPRESS           459020     259
+     85  COMPRESS           461640     259

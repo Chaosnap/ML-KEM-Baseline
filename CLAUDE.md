@@ -14,7 +14,14 @@ make test_cond_sub_q                   # Exhaustive conditional subtraction test
 make test_barrett_reduce               # Exhaustive 16-bit + structured 24-bit Barrett test
 make waves_cond_sub_q                  # Run tests + dump waveforms (FST)
 make waves_barrett_reduce              # Run tests + dump waveforms (FST)
+make test_fpga_top                     # fpga_top end to end over simulated UART
+make sim_evidence                      # Annotated VCDs + logs → simulate_result/ (see docs/vcd_waveform_guide_zh.md)
 ```
+
+**On hardware (Arty A7-100T):** in the Vivado Tcl Console `source fpga/build.tcl` (creates/saves
+`fpga/vivado_proj/ml_kem_uart.xpr`), `source fpga/program.tcl`, then `python scripts/test_fpga_uart.py --port <tty>`.
+Cores are not pipelined (basemul ≈ 41 ns), so hardware runs at 20 MHz via MMCM (`MMCM_DIV`, `CLK_FREQ` generics). Protocol is documented in the `rtl/uart_host.v` header;
+keep `scripts/kyber_uart.py` constants in sync with it.
 
 **Simulator:** Icarus Verilog (`iverilog`). Install via `brew install icarus-verilog` on macOS.
 
@@ -30,6 +37,9 @@ tb/                cocotb testbenches (one directory per module)
 tb/common.mk       Shared cocotb Makefile boilerplate
 ref/               Python reference implementations (test oracles)
 docs/              Architecture diagrams and design notes
+fpga/              Vivado build.tcl/program.tcl + Arty A7-100T XDC
+scripts/           Host-side UART driver + hardware test runner
+simulate_result/   Generated evidence: annotated VCDs (waves/) + result/timeline logs (logs/)
 ```
 
 ## Conventions

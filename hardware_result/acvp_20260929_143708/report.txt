@@ -1,0 +1,209 @@
+====================================================================================================
+ML-KEM-768 (FIPS 203)  --  NIST ACVP Known-Answer Test on FPGA Hardware
+Test Report
+====================================================================================================
+Result             : PASS
+Test cases         : 60 / 60 match the NIST expected results byte-for-byte
+Negative controls  : 3 / 3 deliberate faults detected
+Report generated   : 2026-09-29T14:37:08+08:00   (run time 36.8 s)
+
+1. SCOPE
+----------------------------------------------------------------------------------------------------
+Algorithm          : ML-KEM (FIPS 203), parameter set ML-KEM-768
+ACVP functions     : keyGen (25), encapsulation (25), decapsulation (10)
+Device under test  : FPGA (Digilent Arty A7-100T), driven over UART by the host
+Reference results  : NIST ACVP expectedResults.json, used as published. The comparison
+                     does not use the project's own Python reference implementation.
+
+2. TEST VECTORS (usnistgov/ACVP-Server, gen-val/json-files)
+----------------------------------------------------------------------------------------------------
+File                       vsId  mode       revision isSample SHA-256
+keygen_prompt.json           42  keyGen     FIPS203  False    3f9ce34f6c836c77958bad2729e837c3b213f44ac36c3065976e7acca6389523
+keygen_results.json          42  keyGen     FIPS203  False    a253d0ad91c95ebea5b409673defef0aa49d65d4ed72286399e2e798ddf073a4
+encapdecap_prompt.json       42  encapDecap FIPS203  True     998e22dfb12efb14ce9fdff911ca634b13612819a1806f25da69adba7e16db91
+encapdecap_results.json      42  encapDecap FIPS203  True     9089ec6ff2424da9f2782b89b2f831a329a3e28d6e5e24b802b78ff36ac61cdf
+  source: https://raw.githubusercontent.com/usnistgov/ACVP-Server/master/gen-val/json-files/ML-KEM-keyGen-FIPS203/prompt.json
+  source: https://raw.githubusercontent.com/usnistgov/ACVP-Server/master/gen-val/json-files/ML-KEM-keyGen-FIPS203/expectedResults.json
+  source: https://raw.githubusercontent.com/usnistgov/ACVP-Server/master/gen-val/json-files/ML-KEM-encapDecap-FIPS203/prompt.json
+  source: https://raw.githubusercontent.com/usnistgov/ACVP-Server/master/gen-val/json-files/ML-KEM-encapDecap-FIPS203/expectedResults.json
+
+3. TEST ENVIRONMENT
+----------------------------------------------------------------------------------------------------
+Bitstream          : fpga/vivado_proj/ml_kem_uart.runs/impl_1/fpga_top.bit
+  SHA-256          : 711e10a69a3368ab4df2f2c15ff8bbb074d3dc2145c76eec8627bf4a28653023
+  built            : 2026-09-29T12:51:53+08:00
+  RTL newer than bitstream: none
+Timing (Vivado)    : WNS 5.715 ns, WHS 0.086 ns, all constraints met
+Core clock         : 20.0 MHz (MMCM)
+Source revision    : 780181b7c970e77c1d2278f5a30e89ceeb4a24ef (main)
+  last commit      : Milestone 10b: Autonomous Encaps with Keccak integration
+  uncommitted tracked files: 6
+Serial link        : /dev/cu.usbserial-41032807F7C11 @ 115200 baud, 8N1
+FPGA protocol      : version 0x01, cores 0b111 (bit0 KeyGen, bit1 Encaps, bit2 Decaps)
+Host               : macOS-15.8-arm64-arm-64bit, Python 3.9.6, pyserial 3.5
+Command            : python scripts/test_fpga_uart.py --port /dev/cu.usbserial-41032807F7C11 --report
+
+4. METHOD
+----------------------------------------------------------------------------------------------------
+1) Each test input is read from the NIST prompt file (keyGen: d, z; encapsulation: ek, m;
+   decapsulation: dk, c) and sent to the FPGA over UART.
+2) The FPGA computes the function in hardware (NTT, sampling, SHA-3/SHAKE all on chip).
+3) The host reads the results back and serialises them per FIPS 203 (ByteEncode) into
+   ek, dk, c or K. For dk the host appends H(ek) and z as specified.
+4) Every output is compared byte-for-byte with the NIST expectedResults file.
+5) Decapsulation: the FPGA decrypts c and re-encrypts (Fujisaki-Okamoto check c' == c).
+   If c' != c (invalid ciphertext), the implicit-rejection key K-bar = J(z || c) is
+   computed on the host. Such cases are marked "implicit rejection" in section 6.
+6) Negative controls: one input bit is flipped for one case per function; the
+   comparison against the unmodified NIST result must then FAIL.
+
+5. RESULTS SUMMARY
+----------------------------------------------------------------------------------------------------
+Function          Passed   Total  Result    Min cycles    Median       Max    Median latency
+keyGen                25      25  PASS          35,420    35,595    35,746          1.780 ms
+encapsulation         25      25  PASS          43,895    44,179    44,325          2.209 ms
+decapsulation         10      10  PASS          55,186    55,489    55,605          2.774 ms
+Total                 60      60  PASS    
+Cycles: from the last input byte to completion (UART transfer excluded).
+Decapsulation cycles = decrypt + re-encrypt.
+
+6. PER-TEST-CASE RESULTS
+----------------------------------------------------------------------------------------------------
+For each compared output: length, and the first 16 hex digits of SHA-256 of the NIST
+expected value and of the FPGA output. Full values are in report.json.
+
+Function        tcId  Result Output  Bytes  SHA-256 (NIST)   SHA-256 (FPGA)     Cycles  Note
+keyGen            26  PASS   ek       1184  4158f6afb5e516c9 4158f6afb5e516c9   35,614  
+                             dk       2400  7aab35839207f72b 7aab35839207f72b           
+keyGen            27  PASS   ek       1184  26eb7b8190b6038f 26eb7b8190b6038f   35,660  
+                             dk       2400  8790862599183122 8790862599183122           
+keyGen            28  PASS   ek       1184  45a9ea5951a22952 45a9ea5951a22952   35,534  
+                             dk       2400  5d31de843950557c 5d31de843950557c           
+keyGen            29  PASS   ek       1184  d1114b2c753f5a1a d1114b2c753f5a1a   35,514  
+                             dk       2400  517b5165953eff70 517b5165953eff70           
+keyGen            30  PASS   ek       1184  95a35d0fb2fd9c12 95a35d0fb2fd9c12   35,437  
+                             dk       2400  a8b65a412db4d41d a8b65a412db4d41d           
+keyGen            31  PASS   ek       1184  6290f93fe1601104 6290f93fe1601104   35,566  
+                             dk       2400  5c7131c9c4b64a26 5c7131c9c4b64a26           
+keyGen            32  PASS   ek       1184  2c89b520c0a512b4 2c89b520c0a512b4   35,606  
+                             dk       2400  cd303ee5ad40cd92 cd303ee5ad40cd92           
+keyGen            33  PASS   ek       1184  84441a63ca3b7b3c 84441a63ca3b7b3c   35,677  
+                             dk       2400  5b0aab496fb3e7a4 5b0aab496fb3e7a4           
+keyGen            34  PASS   ek       1184  24dbd7f6e05cdfee 24dbd7f6e05cdfee   35,724  
+                             dk       2400  9bccff7ec9479bd7 9bccff7ec9479bd7           
+keyGen            35  PASS   ek       1184  ddd4ed5306f39009 ddd4ed5306f39009   35,517  
+                             dk       2400  a72dc43b905c8a10 a72dc43b905c8a10           
+keyGen            36  PASS   ek       1184  6904eafaad362c30 6904eafaad362c30   35,644  
+                             dk       2400  008ed31fbdf10f01 008ed31fbdf10f01           
+keyGen            37  PASS   ek       1184  5e154d55462bd9a6 5e154d55462bd9a6   35,643  
+                             dk       2400  4f9744684c2b81e9 4f9744684c2b81e9           
+keyGen            38  PASS   ek       1184  7d00f62c9ce06fc4 7d00f62c9ce06fc4   35,595  
+                             dk       2400  862ddabe59d308a0 862ddabe59d308a0           
+keyGen            39  PASS   ek       1184  5d2c5e914951eab9 5d2c5e914951eab9   35,468  
+                             dk       2400  7ca3bcceb682dccf 7ca3bcceb682dccf           
+keyGen            40  PASS   ek       1184  ae003f9b8283772a ae003f9b8283772a   35,746  
+                             dk       2400  203cb2ff33f8f2a2 203cb2ff33f8f2a2           
+keyGen            41  PASS   ek       1184  873d45b7b223bf3b 873d45b7b223bf3b   35,716  
+                             dk       2400  23155ea988b0b105 23155ea988b0b105           
+keyGen            42  PASS   ek       1184  f7936171cf2a811f f7936171cf2a811f   35,470  
+                             dk       2400  085eccef60f62106 085eccef60f62106           
+keyGen            43  PASS   ek       1184  374e0eb48564c8dc 374e0eb48564c8dc   35,420  
+                             dk       2400  38018e5422e70979 38018e5422e70979           
+keyGen            44  PASS   ek       1184  1a6c7d32c0269e44 1a6c7d32c0269e44   35,677  
+                             dk       2400  69bdb8894e4bcaa3 69bdb8894e4bcaa3           
+keyGen            45  PASS   ek       1184  6411470a25ce2de8 6411470a25ce2de8   35,547  
+                             dk       2400  7463cdb422a0d7e3 7463cdb422a0d7e3           
+keyGen            46  PASS   ek       1184  459c7d4c5d05af35 459c7d4c5d05af35   35,645  
+                             dk       2400  7e28460b01cb99b0 7e28460b01cb99b0           
+keyGen            47  PASS   ek       1184  997c597d259ace16 997c597d259ace16   35,605  
+                             dk       2400  9f8de2d680e7ffa3 9f8de2d680e7ffa3           
+keyGen            48  PASS   ek       1184  ea287b77efe244e9 ea287b77efe244e9   35,516  
+                             dk       2400  6decfbf5a8b2078c 6decfbf5a8b2078c           
+keyGen            49  PASS   ek       1184  e157f3965a7db2e2 e157f3965a7db2e2   35,492  
+                             dk       2400  91fd5af1b3cc1961 91fd5af1b3cc1961           
+keyGen            50  PASS   ek       1184  14ec8d723610132c 14ec8d723610132c   35,570  
+                             dk       2400  cd64dd95d5a56e63 cd64dd95d5a56e63           
+encapsulation     26  PASS   c        1088  6aa5618fa7e32446 6aa5618fa7e32446   44,253  
+                             K          32  08f145404e6cc41b 08f145404e6cc41b           
+encapsulation     27  PASS   c        1088  e1715028281405db e1715028281405db   44,211  
+                             K          32  f46795ca280c7b86 f46795ca280c7b86           
+encapsulation     28  PASS   c        1088  f6290120c35d2fe3 f6290120c35d2fe3   44,259  
+                             K          32  4e7a2683805620f9 4e7a2683805620f9           
+encapsulation     29  PASS   c        1088  0275951938ce5eeb 0275951938ce5eeb   44,132  
+                             K          32  7eb303fdfc1c6d2d 7eb303fdfc1c6d2d           
+encapsulation     30  PASS   c        1088  56b0ea07c54b4ff4 56b0ea07c54b4ff4   44,235  
+                             K          32  9fbfd8be31a0dd63 9fbfd8be31a0dd63           
+encapsulation     31  PASS   c        1088  db788f052ddb4c43 db788f052ddb4c43   44,188  
+                             K          32  2f200cd81f6ba1e5 2f200cd81f6ba1e5           
+encapsulation     32  PASS   c        1088  361cde19bd603adc 361cde19bd603adc   44,228  
+                             K          32  1917e1ef7114c6d6 1917e1ef7114c6d6           
+encapsulation     33  PASS   c        1088  721eff71d8f32b41 721eff71d8f32b41   43,924  
+                             K          32  066396b7cf3ec188 066396b7cf3ec188           
+encapsulation     34  PASS   c        1088  17efa40c05477f89 17efa40c05477f89   44,149  
+                             K          32  3dedf5de52801f2d 3dedf5de52801f2d           
+encapsulation     35  PASS   c        1088  7d7c299d205e6f47 7d7c299d205e6f47   44,206  
+                             K          32  8a2b719281ef3e4d 8a2b719281ef3e4d           
+encapsulation     36  PASS   c        1088  d25ae7a804aa4927 d25ae7a804aa4927   44,159  
+                             K          32  c14a3e75505bfa2e c14a3e75505bfa2e           
+encapsulation     37  PASS   c        1088  9d2acff24b49983e 9d2acff24b49983e   44,325  
+                             K          32  c894bc5854adcc7f c894bc5854adcc7f           
+encapsulation     38  PASS   c        1088  483c3ba8f4d91330 483c3ba8f4d91330   44,100  
+                             K          32  bac2a635c33a8929 bac2a635c33a8929           
+encapsulation     39  PASS   c        1088  2a80b64c78735cd3 2a80b64c78735cd3   43,895  
+                             K          32  71022d3f0eeb525c 71022d3f0eeb525c           
+encapsulation     40  PASS   c        1088  6e2daf378e3f6970 6e2daf378e3f6970   44,245  
+                             K          32  5cf9393398617705 5cf9393398617705           
+encapsulation     41  PASS   c        1088  9c9733aa1160f2a9 9c9733aa1160f2a9   44,064  
+                             K          32  4f677cb07b04e320 4f677cb07b04e320           
+encapsulation     42  PASS   c        1088  f9e92ceb7c620bc3 f9e92ceb7c620bc3   44,278  
+                             K          32  bffa358cb212b28c bffa358cb212b28c           
+encapsulation     43  PASS   c        1088  6555b26617c033fe 6555b26617c033fe   43,975  
+                             K          32  8c2910af3f7622c4 8c2910af3f7622c4           
+encapsulation     44  PASS   c        1088  94336b58a106e4d1 94336b58a106e4d1   44,126  
+                             K          32  ffbe8c491870247b ffbe8c491870247b           
+encapsulation     45  PASS   c        1088  0b07eec04e8c1e68 0b07eec04e8c1e68   43,997  
+                             K          32  1e6d9c7f19724963 1e6d9c7f19724963           
+encapsulation     46  PASS   c        1088  0569583e8a796511 0569583e8a796511   44,179  
+                             K          32  34db677e082cf5d0 34db677e082cf5d0           
+encapsulation     47  PASS   c        1088  5b9a6de97894e473 5b9a6de97894e473   44,167  
+                             K          32  4c2df58e08187a88 4c2df58e08187a88           
+encapsulation     48  PASS   c        1088  ce7c27e4f796d667 ce7c27e4f796d667   44,260  
+                             K          32  01012c427e2c8f3a 01012c427e2c8f3a           
+encapsulation     49  PASS   c        1088  91c997406a93e77d 91c997406a93e77d   44,077  
+                             K          32  835febcc0dbc1272 835febcc0dbc1272           
+encapsulation     50  PASS   c        1088  cc1fac725611183c cc1fac725611183c   44,192  
+                             K          32  b4e2ac2ac7b22f51 b4e2ac2ac7b22f51           
+decapsulation     86  PASS   K          32  ca4b36ac6565fbe8 ca4b36ac6565fbe8   55,605  valid ciphertext
+decapsulation     87  PASS   K          32  f2ac5304c91d840c f2ac5304c91d840c   55,446  valid ciphertext
+decapsulation     88  PASS   K          32  5ba5e3046bbe63d2 5ba5e3046bbe63d2   55,249  implicit rejection (K-bar on host)
+decapsulation     89  PASS   K          32  3ab1166f491622e4 3ab1166f491622e4   55,600  valid ciphertext
+decapsulation     90  PASS   K          32  9338d5f24df3168f 9338d5f24df3168f   55,408  valid ciphertext
+decapsulation     91  PASS   K          32  c6d0907b7d5d49d8 c6d0907b7d5d49d8   55,532  implicit rejection (K-bar on host)
+decapsulation     92  PASS   K          32  3ff8f57de5614841 3ff8f57de5614841   55,186  implicit rejection (K-bar on host)
+decapsulation     93  PASS   K          32  6f2b005f8560ba24 6f2b005f8560ba24   55,489  implicit rejection (K-bar on host)
+decapsulation     94  PASS   K          32  2121ee6033df73ec 2121ee6033df73ec   55,497  valid ciphertext
+decapsulation     95  PASS   K          32  316d1a0ae40a4bb5 316d1a0ae40a4bb5   55,249  implicit rejection (K-bar on host)
+
+7. NEGATIVE CONTROLS
+----------------------------------------------------------------------------------------------------
+Function        tcId  Fault injected                    Compared  Outcome
+keyGen            26  d[0] ^= 0x01 (one bit flipped)    ek, dk    mismatch detected (expected)
+encapsulation     26  m[0] ^= 0x01 (one bit flipped)    c, K      mismatch detected (expected)
+decapsulation     86  c[0] ^= 0x01 (one bit flipped)    K         mismatch detected (expected)
+
+8. NOTES
+----------------------------------------------------------------------------------------------------
+- encapdecap_prompt.json, encapdecap_results.json carry "isSample": true. These are the sample vector sets
+  published by NIST in the ACVP-Server repository together with their expected results.
+- 5 decapsulation case(s) exercised implicit rejection.
+
+9. REPRODUCTION
+----------------------------------------------------------------------------------------------------
+Verify the vector files against NIST:
+  curl -sL https://raw.githubusercontent.com/usnistgov/ACVP-Server/master/gen-val/json-files/ML-KEM-keyGen-FIPS203/prompt.json | shasum -a 256
+  curl -sL https://raw.githubusercontent.com/usnistgov/ACVP-Server/master/gen-val/json-files/ML-KEM-keyGen-FIPS203/expectedResults.json | shasum -a 256
+  curl -sL https://raw.githubusercontent.com/usnistgov/ACVP-Server/master/gen-val/json-files/ML-KEM-encapDecap-FIPS203/prompt.json | shasum -a 256
+  curl -sL https://raw.githubusercontent.com/usnistgov/ACVP-Server/master/gen-val/json-files/ML-KEM-encapDecap-FIPS203/expectedResults.json | shasum -a 256
+Re-run the test (programmed board required):
+  python scripts/test_fpga_uart.py --port /dev/cu.usbserial-41032807F7C11 --report
+====================================================================================================

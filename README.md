@@ -12,6 +12,7 @@ All arithmetic operates in Z_q where q = 3329.
 - **NIST ACVP compliant:** Bit-exact against 60 official ML-KEM-768 test vectors (25 keyGen + 25 encaps + 10 decaps)
 - **Unsigned-only datapath:** Barrett reduction with V=20158 (floor), no signed arithmetic anywhere
 - **24 Verilog modules,** 96 hardware tests + 60 ACVP oracle tests
+- **UART host interface:** `fpga_top` exposes KeyGen/Encaps/Decrypt over the board's USB-UART; `scripts/` tests a programmed FPGA from Python
 
 ## Architecture
 
@@ -23,6 +24,7 @@ All arithmetic operates in Z_q where q = 3329.
 | Polynomial Ops | `basemul_unit`, `poly_basemul`, `compress`, `decompress`, `poly_addsub`, `cbd_sampler` | Pointwise multiply, bit compression (FIPS 203 §4.2.1), CBD noise sampling |
 | Top-level | `kyber_top` | 20-slot RAM bank + micro-op FSM (13 opcodes) |
 | Controllers | `keygen_ctrl/top`, `encaps_ctrl/top`, `decaps_ctrl/top` | ML-KEM-768 algorithm sequencers |
+| Board I/O | `uart_rx`, `uart_tx`, `uart_host`, `fpga_top` | 8N1 UART + command protocol FSM driving the cores |
 
 **Resource budget (XC7A35T):** 25 BRAM18E1 out of 50. See [docs/architecture.md](docs/architecture.md) for block diagrams and detailed design notes.
 
@@ -45,7 +47,29 @@ make test_acvp_oracle        # Run Python ACVP oracle tests only
 make test_acvp_keygen        # Run hardware keygen against 25 ACVP vectors
 make test_acvp_encaps        # Run hardware encaps against 25 ACVP vectors
 make test_acvp_decaps        # Run hardware decaps against 10 ACVP vectors
+make test_fpga_top           # Simulate fpga_top end to end over UART
+make sim_evidence            # Annotated Encaps/NTT/UART waveforms + logs → simulate_result/
 ```
+
+## Running on an FPGA (UART)
+
+Target: Digilent Arty A7-100T. In the Vivado Tcl Console:
+
+```tcl
+source fpga/build.tcl      ;# create + build + save Vivado project (fpga/vivado_proj/ml_kem_uart.xpr)
+source fpga/program.tcl    ;# program over JTAG
+```
+
+Then from a shell:
+
+```bash
+pip install -r scripts/requirements.txt
+python scripts/test_fpga_uart.py --port /dev/tty.usbserial-XXXXXXXX1
+```
+
+On hardware the design runs at 20 MHz (MMCM), because the arithmetic datapath is not pipelined.
+See [scripts/README.md](scripts/README.md) for the protocol and driver API, and
+[docs/fpga_uart_testing_zh.md](docs/fpga_uart_testing_zh.md) for the full test guide (Chinese).
 
 ## Waveforms
 
@@ -66,6 +90,9 @@ tb/common.mk       Shared cocotb Makefile boilerplate
 ref/               Python reference implementations (test oracles)
 ref/kyber_acvp.py  FIPS 203 encoding/hashing layer for ACVP testing
 docs/              Architecture diagrams and design notes
+fpga/              Vivado project build/program TCL + Arty A7-100T constraints
+scripts/           Host-side UART driver and FPGA test runner (pyserial)
+simulate_result/   Generated simulation evidence (VCD + logs), see docs/vcd_waveform_guide_zh.md
 ```
 
 ## Design Decisions

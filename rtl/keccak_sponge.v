@@ -209,13 +209,25 @@ module keccak_sponge (
                 // ---------------------------------------------------------
                 // PERMUTE — 24-round iterative Keccak-f[1600]
                 // ---------------------------------------------------------
+                // A start here aborts the permutation: a SHAKE consumer that
+                // takes the last byte of a rate block (byte_idx == rate_m1)
+                // sends the sponge into PERMUTE, and may pulse start for its
+                // next hash on the very next cycles.
                 S_PERMUTE: begin
-                    state_reg <= round_out;
-                    if (round_ctr == 5'd23) begin
+                    if (start) begin
+                        state_reg <= 1600'd0;
+                        mode_reg  <= mode;
+                        byte_idx  <= 8'd0;
                         round_ctr <= 5'd0;
-                        fsm_state <= return_to;
+                        fsm_state <= S_ABSORB;
                     end else begin
-                        round_ctr <= round_ctr + 5'd1;
+                        state_reg <= round_out;
+                        if (round_ctr == 5'd23) begin
+                            round_ctr <= 5'd0;
+                            fsm_state <= return_to;
+                        end else begin
+                            round_ctr <= round_ctr + 5'd1;
+                        end
                     end
                 end
 

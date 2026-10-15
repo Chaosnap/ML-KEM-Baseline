@@ -41,3 +41,7 @@ ref/acvp_vectors/
 # OS
 .DS_Store
 Thumbs.db
+
+# Vivado build outputs
+fpga/build/
+fpga/vivado_proj/

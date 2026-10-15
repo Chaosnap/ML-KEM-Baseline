@@ -1,0 +1,129 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='900' height='416' viewBox='0 0 900 416' font-family='Helvetica Neue, Helvetica, Arial, sans-serif'>
+<rect width='100%' height='100%' fill='#ffffff'/>
+<text x='24' y='36' font-size='20' fill='#0b0b0b' text-anchor='start' font-weight='bold'>Hardware latency per NIST test case</text>
+<text x='24' y='60' font-size='13' fill='#52514e' text-anchor='start' font-weight='normal'>Clock cycles from the last input byte to completion (UART transfer excluded). Each dot is one ACVP test case; the bar marks the median.</text>
+<text x='24' y='78' font-size='12' fill='#8a8984' text-anchor='start' font-weight='normal'>Each panel has its own axis range; spread within a function comes from rejection sampling. Decaps = decrypt + re-encrypt.</text>
+<text x='24' y='124' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='bold'>KeyGen</text>
+<text x='24' y='141' font-size='12' fill='#52514e' text-anchor='start' font-weight='normal'>n = 25</text>
+<line x1='150.0' x2='150.0' y1='104' y2='148' stroke='#e7e6e1'/>
+<text x='150.0' y='164' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>35,300</text>
+<line x1='268.3' x2='268.3' y1='104' y2='148' stroke='#e7e6e1'/>
+<text x='268.3' y='164' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>35,400</text>
+<line x1='386.7' x2='386.7' y1='104' y2='148' stroke='#e7e6e1'/>
+<text x='386.7' y='164' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>35,500</text>
+<line x1='505.0' x2='505.0' y1='104' y2='148' stroke='#e7e6e1'/>
+<text x='505.0' y='164' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>35,600</text>
+<line x1='623.3' x2='623.3' y1='104' y2='148' stroke='#e7e6e1'/>
+<text x='623.3' y='164' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>35,700</text>
+<line x1='741.7' x2='741.7' y1='104' y2='148' stroke='#e7e6e1'/>
+<text x='741.7' y='164' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>35,800</text>
+<line x1='860.0' x2='860.0' y1='104' y2='148' stroke='#e7e6e1'/>
+<text x='860.0' y='164' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>35,900</text>
+<circle cx='292.0' cy='115.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 43: 35,420 cycles</title></circle>
+<circle cx='312.1' cy='133.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 30: 35,437 cycles</title></circle>
+<circle cx='348.8' cy='126.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 39: 35,468 cycles</title></circle>
+<circle cx='351.2' cy='119.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 42: 35,470 cycles</title></circle>
+<circle cx='377.2' cy='136.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 49: 35,492 cycles</title></circle>
+<circle cx='403.2' cy='129.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 29: 35,514 cycles</title></circle>
+<circle cx='405.6' cy='122.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 48: 35,516 cycles</title></circle>
+<circle cx='406.8' cy='115.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 35: 35,517 cycles</title></circle>
+<circle cx='426.9' cy='133.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 28: 35,534 cycles</title></circle>
+<circle cx='442.3' cy='126.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 45: 35,547 cycles</title></circle>
+<circle cx='464.8' cy='119.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 31: 35,566 cycles</title></circle>
+<circle cx='469.5' cy='136.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 50: 35,570 cycles</title></circle>
+<circle cx='499.1' cy='129.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 38: 35,595 cycles</title></circle>
+<circle cx='510.9' cy='122.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 47: 35,605 cycles</title></circle>
+<circle cx='512.1' cy='115.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 32: 35,606 cycles</title></circle>
+<circle cx='521.6' cy='133.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 26: 35,614 cycles</title></circle>
+<circle cx='555.9' cy='126.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 37: 35,643 cycles</title></circle>
+<circle cx='557.1' cy='119.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 36: 35,644 cycles</title></circle>
+<circle cx='558.2' cy='136.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 46: 35,645 cycles</title></circle>
+<circle cx='576.0' cy='129.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 27: 35,660 cycles</title></circle>
+<circle cx='596.1' cy='122.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 33: 35,677 cycles</title></circle>
+<circle cx='596.1' cy='115.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 44: 35,677 cycles</title></circle>
+<circle cx='642.3' cy='133.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 41: 35,716 cycles</title></circle>
+<circle cx='651.7' cy='126.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 34: 35,724 cycles</title></circle>
+<circle cx='677.8' cy='119.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 40: 35,746 cycles</title></circle>
+<line x1='499.1' x2='499.1' y1='106' y2='146' stroke='#0b0b0b' stroke-width='2'/>
+<text x='860' y='100' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>median 35,595 cycles (1.780 ms at 20 MHz); range 35,420 to 35,746; spread 326 cycles (0.9%)</text>
+<text x='24' y='220' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='bold'>Encaps</text>
+<text x='24' y='237' font-size='12' fill='#52514e' text-anchor='start' font-weight='normal'>n = 25</text>
+<line x1='150.0' x2='150.0' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='150.0' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>43,700</text>
+<line x1='238.8' x2='238.8' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='238.8' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>43,800</text>
+<line x1='327.5' x2='327.5' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='327.5' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>43,900</text>
+<line x1='416.2' x2='416.2' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='416.2' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>44,000</text>
+<line x1='505.0' x2='505.0' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='505.0' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>44,100</text>
+<line x1='593.8' x2='593.8' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='593.8' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>44,200</text>
+<line x1='682.5' x2='682.5' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='682.5' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>44,300</text>
+<line x1='771.2' x2='771.2' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='771.2' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>44,400</text>
+<line x1='860.0' x2='860.0' y1='200' y2='244' stroke='#e7e6e1'/>
+<text x='860.0' y='260' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>44,500</text>
+<circle cx='323.1' cy='211.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 39: 43,895 cycles</title></circle>
+<circle cx='348.8' cy='229.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 33: 43,924 cycles</title></circle>
+<circle cx='394.1' cy='222.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 43: 43,975 cycles</title></circle>
+<circle cx='413.6' cy='215.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 45: 43,997 cycles</title></circle>
+<circle cx='473.1' cy='232.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 41: 44,064 cycles</title></circle>
+<circle cx='484.6' cy='225.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 49: 44,077 cycles</title></circle>
+<circle cx='505.0' cy='218.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 38: 44,100 cycles</title></circle>
+<circle cx='528.1' cy='211.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 44: 44,126 cycles</title></circle>
+<circle cx='533.4' cy='229.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 29: 44,132 cycles</title></circle>
+<circle cx='548.5' cy='222.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 34: 44,149 cycles</title></circle>
+<circle cx='557.4' cy='215.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 36: 44,159 cycles</title></circle>
+<circle cx='564.5' cy='232.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 47: 44,167 cycles</title></circle>
+<circle cx='575.1' cy='225.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 46: 44,179 cycles</title></circle>
+<circle cx='583.1' cy='218.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 31: 44,188 cycles</title></circle>
+<circle cx='586.6' cy='211.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 50: 44,192 cycles</title></circle>
+<circle cx='599.1' cy='229.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 35: 44,206 cycles</title></circle>
+<circle cx='603.5' cy='222.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 27: 44,211 cycles</title></circle>
+<circle cx='618.6' cy='215.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 32: 44,228 cycles</title></circle>
+<circle cx='624.8' cy='232.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 30: 44,235 cycles</title></circle>
+<circle cx='633.7' cy='225.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 40: 44,245 cycles</title></circle>
+<circle cx='640.8' cy='218.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 26: 44,253 cycles</title></circle>
+<circle cx='646.1' cy='211.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 28: 44,259 cycles</title></circle>
+<circle cx='647.0' cy='229.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 48: 44,260 cycles</title></circle>
+<circle cx='663.0' cy='222.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 42: 44,278 cycles</title></circle>
+<circle cx='704.7' cy='215.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 37: 44,325 cycles</title></circle>
+<line x1='575.1' x2='575.1' y1='202' y2='242' stroke='#0b0b0b' stroke-width='2'/>
+<text x='860' y='196' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>median 44,179 cycles (2.209 ms at 20 MHz); range 43,895 to 44,325; spread 430 cycles (1.0%)</text>
+<text x='24' y='316' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='bold'>Decaps</text>
+<text x='24' y='333' font-size='12' fill='#52514e' text-anchor='start' font-weight='normal'>n = 10</text>
+<line x1='150.0' x2='150.0' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='150.0' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,000</text>
+<line x1='238.8' x2='238.8' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='238.8' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,100</text>
+<line x1='327.5' x2='327.5' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='327.5' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,200</text>
+<line x1='416.2' x2='416.2' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='416.2' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,300</text>
+<line x1='505.0' x2='505.0' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='505.0' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,400</text>
+<line x1='593.8' x2='593.8' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='593.8' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,500</text>
+<line x1='682.5' x2='682.5' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='682.5' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,600</text>
+<line x1='771.2' x2='771.2' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='771.2' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,700</text>
+<line x1='860.0' x2='860.0' y1='296' y2='340' stroke='#e7e6e1'/>
+<text x='860.0' y='356' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal'>55,800</text>
+<circle cx='315.1' cy='307.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 92: 55,186 cycles</title></circle>
+<circle cx='371.0' cy='325.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 88: 55,249 cycles</title></circle>
+<circle cx='371.0' cy='318.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 95: 55,249 cycles</title></circle>
+<circle cx='512.1' cy='311.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 90: 55,408 cycles</title></circle>
+<circle cx='545.8' cy='328.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 87: 55,446 cycles</title></circle>
+<circle cx='584.0' cy='321.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 93: 55,489 cycles</title></circle>
+<circle cx='591.1' cy='314.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 94: 55,497 cycles</title></circle>
+<circle cx='622.2' cy='307.5' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 91: 55,532 cycles</title></circle>
+<circle cx='682.5' cy='325.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 89: 55,600 cycles</title></circle>
+<circle cx='686.9' cy='318.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='1.5'><title>tcId 86: 55,605 cycles</title></circle>
+<line x1='584.0' x2='584.0' y1='298' y2='338' stroke='#0b0b0b' stroke-width='2'/>
+<text x='860' y='292' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>median 55,489 cycles (2.774 ms at 20 MHz); range 55,186 to 55,605; spread 419 cycles (0.8%)</text>
+<text x='505.0' y='406' font-size='12' fill='#52514e' text-anchor='middle' font-weight='normal'>Clock cycles</text>
+</svg>

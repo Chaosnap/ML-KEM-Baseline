@@ -1,0 +1,15 @@
+auto_encaps_ctrl phase timeline — NIST tcId=26  (VCD: encaps_tc26.vcd, signal phase_name)
+Total: 46421 cycles from start to done
+
+id  phase       start(ns)    end(ns)  cycles  share  说明
+------------------------------------------------------------------------------------------------
+ 1  INPUT_M            40        360      32   0.1%  接收 32 字节消息 m
+ 2  INPUT_EK          360      21730    2137   4.6%  接收 1184 字节 ek：解析 t̂ 写入 RAM，同时 SHA3-256 吸收 ek
+ 3  H_SQUEEZE       21730      22630      90   0.2%  输出 h = H(ek)（32 字节）
+ 4  G_ABSORB        22630      23280      65   0.1%  SHA3-512 吸收 m ‖ h
+ 5  G_SQUEEZE       23280      24820     154   0.3%  输出 (K, r) = G(m ‖ h)，K 即共享密钥
+ 6  EXPAND_A        24820     149110   12429  26.8%  SHAKE-128 拒绝采样生成矩阵 Â 的 9 个多项式
+ 7  LOAD_M         149110     151670     256   0.6%  μ = Decompress₁(m)：每个比特 → 0 或 1665
+ 8  PRF_CBD        151670     183170    3150   6.8%  7 次 SHAKE-256(r ‖ N) + CBD 采样 → y[0..2], e1[0..2], e2
+ 9  POLY_OPS       183170     464240   28107  60.5%  86 条微操作：NTT、basemul、INTT、加法、压缩
+10  DONE           464240     464250       1   0.0%  完成，done 拉高 1 个周期

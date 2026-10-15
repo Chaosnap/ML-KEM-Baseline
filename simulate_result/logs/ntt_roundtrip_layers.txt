@@ -1,0 +1,27 @@
+ntt_engine layer timeline (signals layer_name / state_name / bf_count in the VCD)
+Each layer: 1 LAYER_INIT + 1 BF_PRIME + 127 BF_OVERLAP + 1 BF_FLUSH = 130 cycles,
+128 butterflies (one per cycle, ping-pong between RAM A and RAM B).
+INTT adds a scaling pass (x 128^-1 mod q, two coefficients per cycle).
+
+== NTT: 911 cycles  (t = 2610 .. 11720 ns)
+   layer   len groups  start(ns)    end(ns) cycles butterflies
+   ------------------------------------------------------------
+   L1      128      1       2610       3910    130         128
+   L2       64      2       3910       5210    130         128
+   L3       32      4       5210       6510    130         128
+   L4       16      8       6510       7810    130         128
+   L5        8     16       7810       9110    130         128
+   L6        4     32       9110      10410    130         128
+   L7        2     64      10410      11710    130         128
+
+== INTT: 1168 cycles  (t = 14300 .. 25980 ns)
+   layer   len groups  start(ns)    end(ns) cycles butterflies
+   ------------------------------------------------------------
+   L1        2     64      14300      15600    130         128
+   L2        4     32      15600      16900    130         128
+   L3        8     16      16900      18200    130         128
+   L4       16      8      18200      19500    130         128
+   L5       32      4      19500      20800    130         128
+   L6       64      2      20800      22100    130         128
+   L7      128      1      22100      23400    130         128
+   SCALE                   23400      25970    257 (256 coeffs)

@@ -1,0 +1,15 @@
+EXPAND_A — SampleNTT of the 9 entries of Â (NIST tcId=26, signal expand_entry)
+Each entry absorbs rho || j || i into SHAKE-128 and keeps 12-bit candidates < q until
+256 coefficients are accepted, so the cycle count differs per entry (rejection sampling).
+
+entry  A[i][j]   start(ns)    end(ns)  cycles
+------------------------------------------------
+    0  A[0][0]        24820      38510    1369
+    1  A[0][1]        38510      52120    1361
+    2  A[0][2]        52120      66300    1418
+    3  A[1][0]        66300      79680    1338
+    4  A[1][1]        79680      93780    1410
+    5  A[1][2]        93780     107550    1377
+    6  A[2][0]       107550     121320    1377
+    7  A[2][1]       121320     135250    1393
+    8  A[2][2]       135250     149110    1386

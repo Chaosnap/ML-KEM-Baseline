@@ -1,0 +1,16 @@
+UART request/response evidence — fpga_top over its serial pins
+DUT: fpga_top (tb/evidence_uart/evidence_uart_tb.v), 8N1, 8 clocks per bit (1 bit = 80 ns, 1 byte frame = 800 ns)
+VCD: simulate_result/waves/uart_transactions.vcd   (clock period 10 ns)
+
+RESULT: PASS   (6/6 transactions ok)
+
+  [PASS] 1 PING         status=00, signature 'KY', version=0x01, caps=0b111
+  [PASS] 2 WRITE_POLY   256 coefficients 0xA00..0xAFF written to keygen core slot 5, status=00
+  [PASS] 3 READ_POLY    returned 512 bytes == written 512 bytes: True (first coefficients 0xa00, 0xa01, 0xa02, 0xa03)
+  [PASS] 4 KEYGEN       status=00, keygen core finished in 35827 cycles (reported by the FPGA)
+  [PASS] 5 READ_SECRET  rho == SHA3-512(d || 3)[0:32] from Python: True
+  [PASS] 6 BAD_SLOT     status=0x03 (bad argument), no payload
+
+KEYGEN seed d : 000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
+rho (Python)  : 5e43481c3eeb397eb192505229b67a201ea893c3e2cb32da8bc342fa4dea0578
+rho (FPGA)    : 5e43481c3eeb397eb192505229b67a201ea893c3e2cb32da8bc342fa4dea0578
